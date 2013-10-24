@@ -1,0 +1,103 @@
+@font-face {
+  font-family: Oswald;
+  src: url('../fonts/Oswald-Regular.ttf') format("opentype");
+}
+
+body * {
+  font-family: Oswald !important;
+  font-size: 1em;
+}
+
+.ui-btn-up-a,.ui-btn-hover-a,.ui-btn-down-a,.ui-bar-a,.ui-body-a,.ui-btn-up-a,.ui-btn-hover-a,.ui-btn-down-a,.ui-body-a input,.ui-body-a select,.ui-body-a textarea,.ui-body-a,
+.ui-body-c, .ui-body-c input, .ui-body-c select, .ui-body-c textarea, .ui-body-c button {
+  font-family: Oswald !important;
+}
+
+.ui-page {
+  background: transparent url('../img/background.png') !important;
+}
+
+.ui-header .ui-title {
+  margin-right: 0px;
+  margin-left: 0px;
+  font-family: Oswald !important;
+}
+
+.content {
+  text-align: center;
+}
+
+.content div {
+  text-align: left;
+}
+
+form {
+  text-align: left;
+}
+
+p {
+  text-align: left;
+}
+
+.inner-content img {
+  display: block;
+  margin: 0 auto;
+  width: 95%;
+  height: auto;
+}
+
+.logo-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  text-align: left;
+  padding-left: 10px;
+}
+
+.header-logo {
+  float:left;
+  height: 100%;
+}
+
+.authenticated {
+  display: none;
+}
+
+#map_canvas {
+  display: block;
+  width: 100%;
+}
+
+.square {
+  font-size: 2em;
+}
+
+.square-left {
+  width: 47%;
+  float: left;
+}
+
+.square-right {
+  width: 47%;
+  float: right;
+}
+
+.square-center {
+  width: 47%;
+  margin: 0 auto;
+}
+
+.float-buttons .ui-btn-inner {
+  padding: 30% 0em;
+  display: block;
+  height: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+}
+
+ui-select .ui-btn-inner {padding: .6em;}
+ui-checkbox .ui-btn-inner {padding: .6em;}

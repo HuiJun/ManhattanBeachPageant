@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" href="themes/PageantApp.min.css" />
+        <link rel="stylesheet" href="themes/jquery.mobile.structure-1.3.0.min.css" />
+        <link rel="stylesheet" href="css/custom.css" />
+        <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+        <script type="text/javascript" src="js/jquery.mobile-1.3.0.min.js"></script>
+        <script type="text/javascript" src="main.js"></script>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript">
+			document.addEventListener("deviceready", onDeviceReady, false);
+			function onDeviceReady() {
+				// Version 1.8+ use this mehod
+				navigator.splashscreen.hide();
+				defaultPageTransition();
+				$('.square').height($('.square').width());
+			}
+			$(document).one("mobileinit", function () {
+				jqmReadyDeferred.resolve();
+			});
+			var initialized;
+            var drupal_user;
+            var featured_list;
+            var event_list;
+            var node_list;
+            var nid;
+            var restdomain = 'http://manhattanbeachpageant.com';
+            var domainname = 'manhattanbeachpageant.com';
+        </script>
+        <title>It Girls</title>
+    </head>
+    <body>
+
+      <div data-role="page" id="page_dashboard">
+      <script type="text/javascript" src="js/pages/dashboard.js"></script>
+        <div data-role="header" data-position="fixed">
+          <h1>Home</h1>
+          <div class="logo-container">
+            <img src="img/pageantlogo.png" class="header-logo" />
+          </div>
+        </div><!-- /header -->
+        <div data-role="content" class="float-buttons">
+          <p><a href="#page_featured_pages" data-role="button" id="button_featured_pages" class="authenticated square square-left" data-transition="slide">Featured<br />Articles</a></p>
+          <p><a href="#page_event_pages" data-role="button" id="button_event_pages" class="authenticated square square-right" data-transition="slide">Upcoming<br />Events</a></p>
+          <p><a href="#page_node_pages" data-role="button" id="button_node_pages" class="authenticated square square-left" data-transition="slide">My<br />Blog</a></p>
+          <p><a href="#page_checkin_pages" data-role="button" id="button_checkin_pages" class="authenticated square square-right disabled ui-disabled" data-transition="slide">Event<br />Check-In</a></p>
+          <p><a href="#page_login" data-role="button" id="button_login" data-transition="slide" class="square square-center">Login</a></p>
+        </div><!-- /content -->
+      </div><!-- /page -->
+      
+      <div data-role="page" id="page_login">
+      <script type="text/javascript" src="js/pages/login.js"></script>
+        <div data-role="header" data-position="fixed">
+          <h1>Login</h1>
+        </div><!-- /header -->
+        <div data-role="content" class="content">
+          <form id="page_login" method="" >
+          <div>
+            <label for="page_login_name">Username</label>
+            <input type="text" id="page_login_name" />
+          </div>
+          <div>
+            <label for="page_login_pass">Password</label>
+            <input type="password" id="page_login_pass" />
+          </div>
+          <fieldset>
+          <p>
+            <div><button type="button" data-theme="b" id="page_login_submit" data-transition="slide" data-direction="reverse">Login</button></div>
+          </p>
+          </fieldset>
+          </form>
+        </div><!-- /content -->
+      </div><!-- /page -->
+      
+      <div data-role="page" id="page_image_create">
+      <script type="text/javascript" src="js/pages/image_create.js"></script>
+        <div data-role="header" data-position="fixed">
+          <h1>Upload Image</h1>
+          <div class="logo-container">
+            <img src="img/pageantlogo.png" class="header-logo" />
+          </div>
+        </div><!-- /header -->
+        <div data-role="content" class="content">
+          <form id="page_image" method="" >
+          <div>
+            <span id="camera_status"></span>
+            <img style="visibility:hidden;display:none;" id="camera_image" src="" />
+          </div>
+          <div id="select-picture">
+            <input type="hidden" id="fid" value="" />
+            <input type="button" id="taken" class="square square-left" onclick="takePicture();" value="Take picture" />
+			<input type="button" id="album" class="square square-right" onclick="selectPicture();" value="Use picture from album" />
+          </div>
+          <div id="upload-picture">
+            <label for="page_image_title">Title</label>
+            <input type="text" id="page_image_name" />
+          </div>
+          </form>
+          <div data-type="horizontal">
+            <a href="#" data-role="button" data-inline="true" data-theme="b" data-icon="check" id="page_image_create_submit" class="ui-btn-right">Post</a>
+          </div>
+          <div data-role="footer" data-position="fixed">
+            <div data-role="navbar">
+              <ul>
+                <li><a href="#" data-role="button" data-rel="back" data-inline="true" data-icon="back" id="button_node_back" data-transition="slide" data-direction="reverse">Back</a></li>
+              </ul>
+            </div>
+          </div>
+        </div><!-- /content -->
+      </div><!-- /page -->
+      
+      <div data-role="page" id="page_blog_create">
+      <script type="text/javascript" src="js/pages/blog_create.js"></script>
+        <div data-role="header" data-position="fixed">
+          <h1>Blog</h1>
+          <div class="logo-container">
+            <img src="img/pageantlogo.png" class="header-logo" />
+          </div>
+        </div><!-- /header -->
+        <div data-role="content" class="content">
+          <form id="page_blog" method="" >
+            <div>
+              <label for="page_blog_title">Title</label>
+              <input type="text" placeholder="Enter the title of your post." name="blog_title" id="page_blog_name" />
+            </div>
+            <div>
+              <label for="page_blog_body">Body</label>
+              <textarea cols="40" rows="8" placeholder="Enter your post." name="blog_content" id="page_blog_body"></textarea>
+            </div>
+          </form>
+          <div data-type="horizontal">
+            <a href="#" data-role="button" data-inline="true" data-theme="b" data-icon="check" id="page_blog_create_submit" class="ui-btn-right">Post</a>
+          </div>
+          <div data-role="footer" data-position="fixed">
+            <div data-role="navbar">
+              <ul>
+                <li><a href="#" data-role="button" data-rel="back" data-inline="true" data-icon="back" id="button_node_back" data-transition="slide" data-direction="reverse">Back</a></li>
+              </ul>
+            </div>
+          </div>
+        </div><!-- /content -->
+      </div><!-- /page -->
+      
+      <div data-role="page" id="page_featured_pages">
+      <script type="text/javascript" src="js/pages/featured_pages.js"></script>
+        <div data-role="header" data-position="fixed">
+          <h1>Featured</h1>
+          <div class="logo-container">
+            <img src="img/pageantlogo.png" class="header-logo" />
+          </div>
+        </div><!-- /header -->
+        <div data-role="content" class="content">
+          <ul data-role="listview" data-theme="a" data-inset="true" id="page_featured_pages_list"></ul>
+          <div data-role="footer" data-position="fixed">
+            <div data-role="navbar">
+              <ul>
+                <li><a href="#page_dashboard" data-role="button" data-inline="true" data-icon="back" id="button_node_back" data-transition="slide" data-direction="reverse">Back</a></li>
+              </ul>
+            </div>
+          </div>
+        </div><!-- /content -->
+      </div><!-- /page -->
+      
+      <div data-role="page" id="page_node_pages">
+      <script type="text/javascript" src="js/pages/node_pages.js"></script>
+        <div data-role="header" data-position="fixed">
+          <h1>My Blog</h1>
+          <div class="logo-container">
+            <img src="img/pageantlogo.png" class="header-logo" />
+          </div>
+        </div><!-- /header -->
+        <div data-role="content" class="content">
+          <ul data-role="listview" data-theme="a" data-inset="true" id="page_node_pages_list"></ul>
+          <div data-role="footer" data-position="fixed">
+            <div data-role="navbar">
+              <ul>
+                <li><a href="#page_dashboard" data-role="button" data-inline="true" data-icon="back" id="button_node_back" data-transition="slide" data-direction="reverse">Back</a></li>
+                <li><a href="#page_blog_create" data-role="button" data-inline="true" data-icon="check" id="button_blog_create" data-transition="slide">Post Blog</a></li>
+                <li><a href="#page_image_create" data-role="button" data-inline="true" data-icon="check" id="button_image_create" data-transition="slide">Upload Image</a></li>
+              </ul>
+            </div>
+          </div>
+        </div><!-- /content -->
+      </div><!-- /page -->
+      
+      <div data-role="page" id="page_node_view">
+      <script type="text/javascript" src="js/pages/node_view.js"></script>
+        <div data-role="header" data-position="fixed">
+          <h1></h1>
+          <div class="logo-container">
+            <img src="img/pageantlogo.png" class="header-logo" />
+          </div>
+        </div><!-- /header -->
+        <div data-role="content" class="content">
+          <div class="inner-content"></div>
+          <div data-role="footer" data-position="fixed">
+            <div data-role="navbar">
+              <ul>
+                <li><a href="#page_node_pages" data-role="button" data-inline="true" data-icon="back" id="button_node_back" data-transition="slide" data-direction="reverse">Back</a></li>
+                <li><a href="#page_delete_confirm" data-role="button" data-inline="true" data-icon="delete" id="button_node_delete" data-transition="slide">Delete</a></li>
+              </ul>
+            </div>
+          </div>
+        </div><!-- /content -->
+      </div><!-- /page -->
+      
+      <div data-role="page" id="page_nodel_view">
+      <script type="text/javascript" src="js/pages/nodel_view.js"></script>
+        <div data-role="header" data-position="fixed">
+          <h1></h1>
+          <div class="logo-container">
+            <img src="img/pageantlogo.png" class="header-logo" />
+          </div>
+        </div><!-- /header -->
+        <div data-role="content" class="content">
+          <div class="inner-content"></div>
+          <div data-role="footer" data-position="fixed">
+            <div data-role="navbar">
+              <ul>
+                <li><a href="#page_featured_pages" data-role="button" data-inline="true" data-icon="back" id="button_node_back" data-transition="slide" data-direction="reverse">Back</a></li>
+              </ul>
+            </div>
+          </div>
+        </div><!-- /content -->
+      </div><!-- /page -->
+      
+      <div data-role="page" id="page_event_pages">
+      <script type="text/javascript" src="js/pages/event_pages.js"></script>
+        <div data-role="header" data-position="fixed">
+          <h1>Upcoming</h1>
+          <div class="logo-container">
+            <img src="img/pageantlogo.png" class="header-logo" />
+          </div>
+        </div><!-- /header -->
+        <div data-role="content" class="content">
+          <div data-role="footer" data-position="fixed">
+            <div data-role="navbar">
+              <ul>
+                <li><a href="#page_dashboard" data-role="button" data-inline="true" data-icon="back" id="button_node_back" data-transition="slide" data-direction="reverse">Back</a></li>
+              </ul>
+            </div>
+          </div>
+          <ul data-role="listview" data-theme="a" data-inset="true" id="page_event_pages_list"></ul>
+        </div><!-- /content -->
+      </div><!-- /page -->
+
+      <div data-role="page" id="page_event_view">
+      <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+      <script type="text/javascript" src="js/jquery.ui.map.full.min.js"></script>
+      <script type="text/javascript" src="js/moment.min.js"></script>
+      <script type="text/javascript" src="js/pages/event_view.js"></script>
+        <div data-role="header" data-position="fixed">
+          <h1></h1>
+          <div class="logo-container">
+            <img src="img/pageantlogo.png" class="header-logo" />
+          </div>
+        </div><!-- /header -->
+        <div data-role="content" class="content">
+          <div class="inner-content"></div>
+          <div id="map_canvas"></div>
+          <div data-role="footer" data-position="fixed">
+            <div data-role="navbar">
+              <ul>
+                <li><a href="#page_event_pages" data-role="button" data-inline="true" data-icon="back" id="button_node_back" data-transition="slide" data-direction="reverse">Back</a></li>
+              </ul>
+            </div>
+          </div>
+        </div><!-- /content -->
+      </div><!-- /page -->      
+      
+      <div data-role="page" id="page_delete_confirm">
+      <script type="text/javascript" src="js/pages/delete_confirm.js"></script>
+        <div data-role="header" data-position="fixed">
+          <h1>Confirm</h1>
+          <div class="logo-container">
+            <img src="img/manhattanbeach.png" class="header-logo" />
+          </div>
+        </div><!-- /header -->
+        <div data-role="content" class="content">
+          <div class="inner-content">
+            <p>Are you sure you want to delete this?</p>
+          </div>
+          <div data-type="horizontal">
+            <a href="#" data-role="button" data-inline="true" data-theme="b" data-icon="delete" id="page_delete_confirm_submit" class="ui-btn-right">Delete</a>
+          </div>
+          <div data-role="footer" data-position="fixed">
+            <div data-role="navbar">
+              <ul>
+                <li><a href="#" data-role="button" data-rel="back" data-inline="true" data-icon="back" id="button_node_back" data-transition="slide" data-direction="reverse">Back</a></li>
+              </ul>
+            </div>
+          </div>
+        </div><!-- /content -->
+      </div><!-- /page -->  
+      
+      <div data-role="page" id="page_checkin_pages">
+        <div data-role="header" data-position="fixed">
+          <h1>Check In</h1>
+          <div class="logo-container">
+            <img src="img/pageantlogo.png" class="header-logo" />
+          </div>
+        </div><!-- /header -->
+        <div data-role="content" class="content">
+          <div class="inner-content"></div>
+          <div data-role="footer" data-position="fixed">
+            <div data-role="navbar">
+              <ul>
+                <li><a href="#" data-role="button" data-rel="back" data-inline="true" data-icon="back" id="button_node_back" data-transition="slide" data-direction="reverse">Back</a></li>
+              </ul>
+            </div>
+          </div>
+        </div><!-- /content -->
+      </div><!-- /page -->   
+      
+    </body>
+</html>
